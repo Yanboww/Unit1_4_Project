@@ -1,5 +1,3 @@
-import java.util.Locale;
-
 public class DungeonConquestSim {
     private int health;
     private int stamina;

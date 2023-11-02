@@ -60,7 +60,7 @@ public class DungeonConquestSim {
     public int useMove(int moveNum)
     {
         int dmg = 0;
-        if(moveNum==1)
+        if(moveNum==1 && stamina>=2)
         {
             if(move.equals("Icicle Lance"))
             {
@@ -111,7 +111,7 @@ public class DungeonConquestSim {
                 }
             }
         }
-        else if(moveNum == 2)
+        if(moveNum == 2 && stamina>=10)
         {
             if(move.equals("Cocytus"))
             {
@@ -129,7 +129,7 @@ public class DungeonConquestSim {
                     dmg = 15;
                 }
             }
-            else if(move.equals("Strong Cleave"))
+            else if(move.equals("Strong Cleave")  )
             {
                 stamina-=10;
                 rollDice();
@@ -181,37 +181,37 @@ public class DungeonConquestSim {
         stamina+=2;
     }
 
-    public String describeMove(String moveName)
+    public String describeMove(int value)
     {
         String words ="";
-        if (moveName.equals("Icicle Lance"))
+        if (move.equals("Icicle Lance") && value ==1)
         {
-            words+= "A basic ice type magic that is long ranged";
+            words+= "Icicle Lance is  basic ice type magic that is long ranged";
 
         }
-        else if (moveName.equals("Cleave"))
+        else if (move.equals("Cleave") && value ==1)
         {
-            words+= "Send a fast cleave towards your enemy";
+            words+= "Cleave sends a fast cleave towards your enemy";
 
         }
-        if (moveName.equals("Stab"))
+        else if (move.equals("Stab") && value ==1)
         {
-            words+= "As its name suggests...";
+            words+= "Stab is as its name suggests...";
 
         }
-        if (moveName.equals("Cocytus"))
+        else if (ultimate.equals("Cocytus") && value ==2)
         {
-            words+= "Freeze your enemies with the ice covering deepest layer of hell.";
+            words+= "Cocytus! Freeze your enemies with the ice covering deepest layer of hell.";
 
         }
-        if (moveName.equals("Strong Cleave"))
+        else if (ultimate.equals("Strong Cleave") && value ==2)
         {
-            words+= "You use a cleave... but BETTER!";
+            words+= "Strong Cleave - You use a cleave... but BETTER!";
 
         }
-        if (moveName.equals("Holy Smite"))
+        else
         {
-            words+= "The faith in our lord shall grant us his providence and purge the world of sin.";
+            words+= "Holy Smite: The faith in our lord shall grant us his providence and purge the world of sin.";
 
         }
         return words;
@@ -246,6 +246,17 @@ public class DungeonConquestSim {
         setEnemy(name);
         return name;
     }
+
+    public int returnEHP()
+    {
+        return ehp;
+    }
+
+    public int returnHP()
+    {
+        return health;
+    }
+
 
     public void setEnemy(String name)
     {
@@ -335,7 +346,7 @@ public class DungeonConquestSim {
     {
         if (health == 0)
         {
-            return "Congrats you just died\nBetter luck next time LLLLLLL";
+            return "Congrats you just died\nBetter luck next time HAHAHAHA.";
         }
         else{
             String words = "";
@@ -359,12 +370,13 @@ public class DungeonConquestSim {
         }
         return false;
     }
-    public void nextEnemy()
+
+    public void wait(int ms)
     {
-        if (victory())
-        {
-            String enemy = generateEnemies();
-            setEnemy(enemy);
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 

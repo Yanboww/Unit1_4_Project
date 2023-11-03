@@ -42,16 +42,16 @@ public class DungeonRunner {
             newGame.wait(2000);
             System.out.println(green + "Now go kill it!" + reset +" says a distant voice");
             newGame.wait(1500);
-            while (!newGame.victory() && count!=10)
+            boolean inBattle = newGame.victory();
+            while (!inBattle && count!=10)
             {
                 int stamina = newGame.returnStamina();
                 int ehp = newGame.returnEHP();
                 int hp = newGame.returnHP();
-                newGame.changeStamina();
                 System.out.println(green + "Player Health: " + hp + reset);
                 System.out.println(blue + "Stamina: " + stamina + reset);
                 System.out.println(red + "Enemy Health: " + ehp + reset);
-                System.out.print("What is your move?\n1) use skill(2 stamina)\n2) use ultimate(10 stamina)\n3) heal(2 stamina)\n:");
+                System.out.print("What is your move?\n1) use skill(2 stamina)\n2) use ultimate(10 stamina)\n3) heal(2 stamina)\n4) do nothing\n:");
                 String moveNumString = s.nextLine();
                 int moveNum = Integer.parseInt(moveNumString);
                 int dmg = newGame.useMove(moveNum);
@@ -77,7 +77,7 @@ public class DungeonRunner {
                     }
 
                 }
-                else
+                else if(moveNum==3)
                 {
                     if(stamina>=2)
                     {
@@ -88,11 +88,19 @@ public class DungeonRunner {
                         System.out.println(green + "foolish hero you can't use a skill you don't have the stamina for." + reset);
                     }
                 }
+                else {
+                    System.out.println("You did nothing... it was not very effective!");
+                }
                 newGame.wait(1000);
-                int enemyDMG = newGame.enemyMove();
-                System.out.println("\n"+enemy + " does " + red + enemyDMG +" damage!\n" + reset);
+                newGame.changeStamina();
+                if(!inBattle)
+                {
+                    int enemyDMG = newGame.enemyMove();
+                    System.out.println("\n"+enemy + " does " + red + enemyDMG +" damage!\n" + reset);
+                }
             }
             count++;
+            newGame.resetHP();
 
         }
 

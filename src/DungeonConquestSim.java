@@ -20,6 +20,7 @@ public class DungeonConquestSim {
 
     public void decideConstruct(String classChar)
     {
+        count=0;
         if(classChar.equals("mage"))
         {
             this.classChar = classChar;
@@ -57,6 +58,10 @@ public class DungeonConquestSim {
         return dice;
     }
 
+    public void resetHP()
+    {
+        health+=50;
+    }
     public int useMove(int moveNum)
     {
         int dmg = 0;
@@ -111,9 +116,9 @@ public class DungeonConquestSim {
                 }
             }
         }
-        if(moveNum == 2 && stamina>=10)
+        else if(moveNum == 2 && stamina>=10)
         {
-            if(move.equals("Cocytus"))
+            if(ultimate.equals("Cocytus"))
             {
                 stamina-=10;
                 rollDice();
@@ -129,7 +134,7 @@ public class DungeonConquestSim {
                     dmg = 15;
                 }
             }
-            else if(move.equals("Strong Cleave")  )
+            else if(ultimate.equals("Strong Cleave")  )
             {
                 stamina-=10;
                 rollDice();
@@ -162,7 +167,7 @@ public class DungeonConquestSim {
                 }
             }
         }
-        else
+        else if (stamina>=2 && moveNum ==3)
         {
            changeHealth();
         }
@@ -172,13 +177,15 @@ public class DungeonConquestSim {
 
     public void changeHealth()
     {
-        health+=5;
+        int diceNum = rollDice();
+        health+=5+diceNum;
         stamina-=2;
     }
 
     public void changeStamina()
     {
-        stamina+=2;
+        int diceNum =rollDice();
+        stamina+=diceNum+1;
     }
 
     public String describeMove(int value)
@@ -220,7 +227,7 @@ public class DungeonConquestSim {
 
     public String generateEnemies()
     {
-        count = 10;
+        count++;
         String name ="";
         int diceNum = rollDice();
         if (diceNum<4)
@@ -262,8 +269,8 @@ public class DungeonConquestSim {
     {
         if (enemy.equals("The Ancient One"))
         {
-            ehp = 200;
-            eatk = 10;
+            ehp = 300;
+            eatk = 20;
 
         }
         else if (enemy.equals("??????"))
@@ -364,7 +371,7 @@ public class DungeonConquestSim {
 
     public boolean victory()
     {
-        if (ehp == 0)
+        if (ehp <= 0)
         {
             return true;
         }

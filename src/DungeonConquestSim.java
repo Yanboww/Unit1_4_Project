@@ -73,14 +73,14 @@ public class DungeonConquestSim {
                 rollDice();
                 if (dice ==6)
                 {
-                    dmg = dice*atk/2;
+                    dmg = dice*atk/2+2;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+1;
+                    dmg = atk+3;
                 }
                 else{
-                    dmg = 0;
+                    dmg = 7;
                 }
             }
             else if(move.equals("Cleave"))
@@ -93,10 +93,10 @@ public class DungeonConquestSim {
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+1;
+                    dmg = atk+2;
                 }
                 else{
-                    dmg = 0;
+                    dmg = 5;
                 }
             }
             else
@@ -112,7 +112,7 @@ public class DungeonConquestSim {
                     dmg = atk+1;
                 }
                 else{
-                    dmg = 0;
+                    dmg = 6;
                 }
             }
         }
@@ -124,14 +124,14 @@ public class DungeonConquestSim {
                 rollDice();
                 if (dice ==6)
                 {
-                    dmg = dice*atk;
+                    dmg = dice*atk+20;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+dice+15;
+                    dmg = atk+dice+25;
                 }
                 else{
-                    dmg = 15;
+                    dmg = 25;
                 }
             }
             else if(ultimate.equals("Strong Cleave")  )
@@ -140,11 +140,11 @@ public class DungeonConquestSim {
                 rollDice();
                 if (dice ==6)
                 {
-                    dmg = dice+atk+atk;
+                    dmg = dice+atk+atk+10;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+10;
+                    dmg = atk+15;
                 }
                 else{
                     dmg = 10;
@@ -156,14 +156,14 @@ public class DungeonConquestSim {
                 rollDice();
                 if (dice ==6)
                 {
-                    dmg = dice*atk-5;
+                    dmg = dice*atk+10;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+15;
+                    dmg = atk+20;
                 }
                 else{
-                    dmg = 12;
+                    dmg = 20;
                 }
             }
         }
@@ -178,7 +178,7 @@ public class DungeonConquestSim {
     public void changeHealth()
     {
         int diceNum = rollDice();
-        health+=5+diceNum;
+        health+=6+diceNum;
         stamina-=2;
     }
 
@@ -240,12 +240,12 @@ public class DungeonConquestSim {
             enemy = "??????";
             name = "??????";
         }
-        else
+        else if(diceNum == 5 || diceNum ==6)
         {
             enemy = "Cute Slime that you must murder(you have no choice)";
             name = "Cute Slime that you must murder(you have no choice)";
         }
-        if (count==10)
+        if (count>=3)
         {
             enemy = "The Ancient One";
             name = "The Ancient One";
@@ -279,15 +279,15 @@ public class DungeonConquestSim {
             eatk = 7;
 
         }
-        else if (enemy.equals("Cute Slime that you must murder(you have no choice"))
+        else if (enemy.equals("Cute Slime that you must murder(you have no choice)"))
         {
             ehp = 400;
-            atk = 0;
+            eatk = 0;
 
         }
         else {
             ehp = 100;
-            atk = 5;
+            eatk = 5;
 
         }
     }
@@ -303,7 +303,7 @@ public class DungeonConquestSim {
         {
             words = "... I don't quite know what it is perhaps its identity will be revealed later";
         }
-        else if (enemy.equals("Cute Slime that you must murder(you have no choice"))
+        else if (enemy.equals("Cute Slime that you must murder(you have no choice)"))
         {
             words = "The cutest thing you have and will ever see";
         }
@@ -320,21 +320,21 @@ public class DungeonConquestSim {
 
     public int enemyMove()
     {
-        int dmg;
+        int dmg=0;
         if (enemy.equals("The Ancient One"))
         {
-            dmg = atk+ (int)(Math.random()*10);
+            dmg = eatk+ (int)(Math.random()*10);
         }
         else if (enemy.equals("??????"))
         {
-            dmg = atk+ (int)(Math.random()*6);
+            dmg = eatk+ (int)(Math.random()*6);
         }
-        else if (enemy.equals("Cute Slime that you must murder(you have no choice"))
+        else if (enemy.equals("Cute Slime that you must murder(you have no choice)"))
         {
             dmg = 0;
         }
-        else {
-            dmg = atk+3;
+        else if(enemy.equals("Very Extremely Scary Clown")){
+            dmg = eatk;
         }
         health-=dmg;
         return dmg;
@@ -342,7 +342,7 @@ public class DungeonConquestSim {
 
     public boolean finale()
     {
-        if (count==10 & ehp == 0 || health == 0)
+        if (count==3 & ehp == 0 || health <= 0)
         {
             return true;
         }

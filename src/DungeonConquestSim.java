@@ -27,7 +27,7 @@ public class DungeonConquestSim {
             int statBase = (int)(Math.random()*10)+1;
             health = statBase+100;
             stamina = statBase+2;
-            atk = statBase+1;
+            atk = statBase+4;
             move = "Icicle Lance";
             ultimate = "Cocytus";
         }
@@ -357,8 +357,8 @@ public class DungeonConquestSim {
         }
         else{
             String words = "";
-            words+= "What a silly and fun journey this was. Renowned for clearing the dungeon, you become";
-            words+= " renowned as the Dungeon Master. You are a true hero who braved the darkness brought";
+            words+= "What a silly and fun journey this was.\nRenowned for clearing the dungeon, you become";
+            words+= " renowned as the Dungeon Master.\nYou are a true hero who braved the darkness brought";
             words+=" peace with your blinding light.";
             return words;
         }

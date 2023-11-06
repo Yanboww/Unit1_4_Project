@@ -32,8 +32,9 @@ public class DungeonRunner {
         System.out.println(blue + "Ultimate: " + newGame.describeMove(2) + reset);
         int count=0;
         int hp = 1;
-        while (!newGame.finale() && hp>0)
+        while (!newGame.finale() && hp>0 && count<2)
         {
+            count++;
             System.out.println("\nAn enemy appears before you...");
             newGame.wait(2000);
             String enemy = newGame.generateEnemies();
@@ -44,8 +45,7 @@ public class DungeonRunner {
             System.out.println(green + "Now go kill it!" + reset +" says a distant voice");
             newGame.wait(1500);
             boolean victory = newGame.victory();
-            count++;
-            while (!victory && count<3 && hp>0)
+            while (!victory && hp>0)
             {
                 int stamina = newGame.returnStamina();
                 int ehp = newGame.returnEHP();
@@ -103,67 +103,77 @@ public class DungeonRunner {
                 }
             }
             newGame.resetHP();
-            if (count>=3)
-            {
-                newGame.wait(1000);
-                System.out.println(green + "Good job hero, you have made it far. Far exceeding my expectations" + reset);
-                System.out.println(green+"You have performed well so far but you have yet to face your greatest challenge...");
-                System.out.println(red + "Throughout heaven and earth, I alone am the honored one." + reset);
-                System.out.println(red + "It is I! DIO! No wait I meant IT IS I! The Ancient One!" + reset);
-                while(!newGame.finale() && !newGame.victory() && hp>=0)
-                {
-                    int stamina = newGame.returnStamina();
-                    int ehp = newGame.returnEHP();
-                    hp = newGame.returnHP();
-                    System.out.println(green + "Player Health: " + hp + reset);
-                    System.out.println(blue + "Stamina: " + stamina + reset);
-                    System.out.println(red + "Enemy Health: " + ehp + reset);
-                    System.out.print("What is your move?\n1) use skill(2 stamina)\n2) use ultimate(10 stamina)\n3) heal(2 stamina)\n4) do nothing\n:");
-                    String moveNumString = s.nextLine();
-                    int moveNum = Integer.parseInt(moveNumString);
-                    int dmg = newGame.useMove(moveNum);
-                    newGame.wait(1000);
-                    if (moveNum == 1)
-                    {
-                        if(stamina>=2)
-                        {
-                            System.out.println("You do " + dmg + " damage against " + enemy +"!");
-                        }
-                        else{
-                            System.out.println(red + "..." + reset);
-                        }
-                    }
-                    else if(moveNum == 2)
-                    {
-                        if(stamina>=10)
-                        {
-                            System.out.println("You use your ultimate! You did a massive " + dmg +" damage against " + enemy + "!");
-                        }
-                        else{
-                            System.out.println(red + "Stupid hero" + reset);
-                        }
 
-                    }
-                    else if(moveNum==3)
-                    {
-                        if(stamina>=2)
-                        {
-                            System.out.println(red + "Go ahead and delay the inevitable" + reset);
-                            System.out.println("You healed hp!");
-                        }
-                        else{
-                            System.out.println(red + "Do you want to lose?." + reset);
-                        }
-                    }
-                    else {
-                        System.out.println("You did nothing... it was not very effective!");
-                    }
-                }
-            }
 
         }
+        String enemy = newGame.generateEnemies();
+        newGame.wait(1000);
+        System.out.println(green + "Good job hero, you have made it far. Far exceeding my expectations" + reset);
+        newGame.wait(1000);
+        System.out.println(green+"You have performed well so far but you have yet to face your greatest challenge...");
+        newGame.wait(1000);
+        System.out.println(blackBG + red + "Throughout heaven and earth, I alone am the honored one." + reset);
+        newGame.wait(1000);
+        System.out.println(blackBG + red + "It is I! DIO! No wait I meant IT IS I! The Ancient One!" + reset);
+        while(!newGame.finale() && !newGame.victory() && hp>=0)
+        {
+            newGame.wait(1500);
+            int stamina = newGame.returnStamina();
+            int ehp = newGame.returnEHP();
+            hp = newGame.returnHP();
+            System.out.println(green + "Player Health: " + hp + reset);
+            System.out.println(blue + "Stamina: " + stamina + reset);
+            System.out.println(red + "Enemy Health: " + ehp + reset);
+            System.out.print("What is your move?\n1) use skill(2 stamina)\n2) use ultimate(10 stamina)\n3) heal(2 stamina)\n4) do nothing\n:");
+            String moveNumString = s.nextLine();
+            int moveNum = Integer.parseInt(moveNumString);
+            int dmg = newGame.useMove(moveNum);
+            newGame.wait(1000);
+            if (moveNum == 1)
+            {
+                if(stamina>=2)
+                {
+                    System.out.println("You do " + dmg + " damage against " + enemy +"!");
+                }
+                else{
+                    System.out.println(blackBG + red + "..." + reset);
+                    }
+            }
+            else if(moveNum == 2)
+            {
+                if(stamina>=10)
+                {
+                    System.out.println("You use your ultimate! You did a massive " + dmg +" damage against " + enemy + "!");
+                }
+                else{
+                    System.out.println(blackBG+red + "Stupid hero" + reset);
+                }
+
+            }
+            else if(moveNum==3)
+            {
+                if(stamina>=2)
+                {
+                    System.out.println(blackBG + red + "Go ahead and delay the inevitable" + reset);
+                    System.out.println("You healed hp!");
+                }
+                else{
+                    System.out.println(blackBG + red + "Do you want to lose?." + reset);
+                }
+            }
+            else {
+                System.out.println("You did nothing... it was not very effective!");
+            }
+            newGame.changeStamina();
+            if(!newGame.victory())
+            {
+                int enemyDMG = newGame.enemyMove();
+                System.out.println("\n"+enemy + " does " + red + enemyDMG +" damage!\n" + reset);
+            }
+        }
+
         String message = newGame.endMessage();
-        System.out.println(message);
+        System.out.println(magenta + message + reset);
 
     }
 

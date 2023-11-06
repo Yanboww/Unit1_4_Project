@@ -10,6 +10,11 @@ public class DungeonConquestSim {
     private int count;
     private String enemy;
     private int dice;
+    final String red ="\u001B[31m";
+    final String green = "\u001B[32m";
+    final String reset = "\u001B[0m";
+    final String blackBG= "\u001B[40m";
+    final String magenta = "\u001B[35m";
 
     public DungeonConquestSim(String classChar)
     {
@@ -323,7 +328,12 @@ public class DungeonConquestSim {
         int dmg=0;
         if (enemy.equals("The Ancient One"))
         {
-            dmg = eatk+ (int)(Math.random()*10);
+            dmg = eatk+ (int)(Math.random()*10)+5;
+            int diceNum = (int)(Math.random()*1000);
+            if (diceNum == 10)
+            {
+                dmg+=health;
+            }
         }
         else if (enemy.equals("??????"))
         {
@@ -349,18 +359,22 @@ public class DungeonConquestSim {
         return false;
     }
 
-    public String endMessage()
+    public String endMessage(int count)
     {
-        if (health == 0)
+        if (health <= 0 && count<3)
         {
-            return "Congrats you just died\nBetter luck next time HAHAHAHA.";
+            return green + "Congrats you just died\nBetter luck next time HAHAHAHA." + reset;
+        }
+        else if (health <=0 && count==3)
+        {
+            return blackBG + red + "The combination of maximum output blue and p*** yellow! LIME GREEN!" + reset +"\nYou died whilst fighting The Ancient One";
         }
         else{
             String words = "";
             words+= "What a silly and fun journey this was.\nRenowned for clearing the dungeon, you become";
             words+= " renowned as the Dungeon Master.\nYou are a true hero who braved the darkness brought";
             words+=" peace with your blinding light.";
-            return words;
+            return magenta + words + reset;
         }
     }
 
@@ -385,6 +399,88 @@ public class DungeonConquestSim {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public String moveMessage(int moveNum,int dmg,int stamina)
+    {
+        String phrase ="";
+        if (moveNum == 1)
+        {
+            if(stamina>=2)
+            {
+                phrase = "You do " +red+ dmg + reset + " damage against " + enemy +"!";
+            }
+            else{
+                phrase = green + "foolish hero you can't use a skill you don't have the stamina for." + reset;
+            }
+        }
+        else if(moveNum == 2)
+        {
+            if(stamina>=10)
+            {
+                phrase = "You use your ultimate! You did a massive " + red + dmg + reset +" damage against " + enemy + "!";
+            }
+            else{
+                phrase = green + "foolish hero you can't use a skill you don't have the stamina for." + reset;
+            }
+
+        }
+        else if(moveNum==3)
+        {
+            if(stamina>=2)
+            {
+                phrase = green + "Oh Hero are you scared?" + red + "STOP HEALING AND GET KILLING!" + reset;
+                phrase += "\nYou healed hp!";
+            }
+            else{
+                phrase = green + "foolish hero you can't use a skill you don't have the stamina for." + reset;
+            }
+        }
+        else {
+            phrase = "You did nothing... it was not very effective!";
+        }
+        return phrase;
+    }
+
+    public String moveMessageBoss(int moveNum, int dmg, int stamina)
+    {
+        String phrase ="";
+        if (moveNum == 1)
+        {
+            if(stamina>=2)
+            {
+                phrase = "You do " + red + dmg + reset + " damage against " + enemy +"!";
+            }
+            else{
+                phrase = blackBG + red + "..." + reset;
+            }
+        }
+        else if(moveNum == 2)
+        {
+            if(stamina>=10)
+            {
+                phrase = "You use your ultimate! You did a massive " + red +  dmg + reset +" damage against " + enemy + "!";
+            }
+            else{
+                phrase = blackBG+red + "Stupid hero" + reset;
+            }
+
+        }
+        else if(moveNum==3)
+        {
+            if(stamina>=2)
+            {
+                phrase = blackBG + red + "Go ahead and delay the inevitable" + reset;
+                phrase += "\nYou healed hp!";
+            }
+            else{
+                phrase = blackBG + red + "Do you want to lose?." + reset;
+            }
+        }
+        else {
+            phrase = "You did nothing... it was not very effective!";
+        }
+        return phrase;
     }
 
     public String toString()

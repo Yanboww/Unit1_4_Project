@@ -1,3 +1,7 @@
+/**
+*This class represents a simulator
+* It is computations for the program
+ */
 public class DungeonConquestSim {
     private int health;
     private int stamina;
@@ -15,6 +19,12 @@ public class DungeonConquestSim {
     final String reset = "\u001B[0m";
     final String blackBG= "\u001B[40m";
     final String magenta = "\u001B[35m";
+    /**
+     * Constructor for the DungeonConquestSim class. This creates a new instance of a game with
+     * the below parameter
+     *
+     * @param classChar represents the class the player chosen out of warrior, mage and paladin
+     */
 
     public DungeonConquestSim(String classChar)
     {
@@ -23,6 +33,10 @@ public class DungeonConquestSim {
 
     }
 
+    /** Decides what stats the player is going to have depending on the class they chose
+     *
+     * @param classChar a string representing the class the player chose out  of warrior, mage and paladin
+     */
     public void decideConstruct(String classChar)
     {
         count=0;
@@ -57,16 +71,31 @@ public class DungeonConquestSim {
         }
     }
 
+    /** A method that rolls a die which has 6 different equal outcomes
+     *
+     * @return the value of the dice in integer format after it is rolled
+     */
     public int rollDice()
     {
         dice = (int)(Math.random()*6)+1;
         return dice;
     }
 
+    /**A method that adds 50 to the private variable health.
+     *
+     */
     public void resetHP()
     {
         health+=50;
     }
+
+    /** A method that processes what the player chose to do during the gameplay out of 4
+     * possible inputs and change the EHP variable according to the calculations whilst
+     * also testing for stamina requirements
+     *
+     * @param moveNum an integer value of what the player chose from 1 to 4
+     * @return returns the dmg variable as an integer after the calculations
+     */
     public int useMove(int moveNum)
     {
         int dmg = 0;
@@ -180,6 +209,11 @@ public class DungeonConquestSim {
         return dmg;
     }
 
+    /** A method that rolls the dice using the rollDice() method and adds 6 + the dice value
+     * to health and removes 2 stamina
+     *
+     */
+
     public void changeHealth()
     {
         int diceNum = rollDice();
@@ -187,11 +221,23 @@ public class DungeonConquestSim {
         stamina-=2;
     }
 
+    /** A method that changes the stamina variable based on the rollDice() method + 1
+     *
+     */
+
     public void changeStamina()
     {
         int diceNum =rollDice();
         stamina+=diceNum+1;
     }
+
+    /** Describes the move of the player by testing the string value in the move or ultimate
+     * variable .
+     *
+     * @param value an integer between 1 or 2 that determines whether the ultimate move or
+     * the normal move gets defined.
+     * @return returns the string value of the move description.
+     */
 
     public String describeMove(int value)
     {
@@ -230,6 +276,11 @@ public class DungeonConquestSim {
 
     }
 
+    /** A method that randomly rolls a die to determine between 3 enemy characters and adds 1
+     * to the variable count. When count is 3 or more, it guarantees the boss to be generated
+     *
+     * @return returns the enemy name based on the dice roll and calculations
+     */
     public String generateEnemies()
     {
         count++;
@@ -255,22 +306,35 @@ public class DungeonConquestSim {
             enemy = "The Ancient One";
             name = "The Ancient One";
         }
-        setEnemy(name);
+        setEnemy();
         return name;
     }
+
+    /** A method that returns the private variable ehp.
+     *
+     * @return returns the private variable ehp
+     */
 
     public int returnEHP()
     {
         return ehp;
     }
 
+    /** A method that returns the private variable health
+     *
+     * @return returns the private variable health
+     */
     public int returnHP()
     {
         return health;
     }
 
-
-    public void setEnemy(String name)
+    /** Set the enemy stats such as ehp and eatk based on the name assigned to the variable
+     * enemy. This process is after the generateEnemies() method which assigned the enemy variable
+     * values.
+     *
+     */
+    public void setEnemy()
     {
         if (enemy.equals("The Ancient One"))
         {
@@ -296,6 +360,11 @@ public class DungeonConquestSim {
 
         }
     }
+
+    /** Describes the
+     *
+     * @return
+     */
 
     public String describeEnemy()
     {
@@ -482,6 +551,14 @@ public class DungeonConquestSim {
         }
         return phrase;
     }
+
+    /**
+     * toString method for the DungeonConquestSim class. This method will return a String
+     * showing all the information about the player character in a list.
+     *
+     * @return returns a String in a properly formatted list containing all
+     * the information about the player character's stats
+     */
 
     public String toString()
     {

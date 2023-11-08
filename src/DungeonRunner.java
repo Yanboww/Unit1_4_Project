@@ -56,7 +56,7 @@ public class DungeonRunner {
                 int moveNum = Integer.parseInt(moveNumString);
                 int dmg = newGame.useMove(moveNum);
                 newGame.wait(1000);
-                System.out.println(newGame.moveMessage(moveNum,dmg,stamina));
+                System.out.println(newGame.moveMessage(moveNum,dmg,stamina,hp));
                 newGame.wait(1000);
                 newGame.changeStamina();
                 victory = newGame.victory();
@@ -100,7 +100,7 @@ public class DungeonRunner {
                 int moveNum = Integer.parseInt(moveNumString);
                 int dmg = newGame.useMove(moveNum);
                 newGame.wait(1000);
-                System.out.println(newGame.moveMessageBoss(moveNum,dmg,stamina));
+                System.out.println(newGame.moveMessageBoss(moveNum,dmg,stamina,hp));
                 newGame.changeStamina();
                 if(!newGame.victory())
                 {

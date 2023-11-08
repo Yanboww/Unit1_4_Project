@@ -46,7 +46,7 @@ public class DungeonConquestSim {
             int statBase = (int)(Math.random()*10)+1;
             health = statBase+100;
             stamina = statBase+2;
-            atk = statBase+4;
+            atk = statBase+6;
             move = "Icicle Lance";
             ultimate = "Cocytus";
         }
@@ -55,7 +55,7 @@ public class DungeonConquestSim {
             this.classChar = classChar;
             int statBase = (int)(Math.random()*20)+1;
             health = statBase+100;
-            stamina = statBase+2;
+            stamina = statBase+6;
             atk = statBase+1;
             move = "Cleave";
             ultimate = "Strong Cleave";
@@ -64,8 +64,8 @@ public class DungeonConquestSim {
             this.classChar = "paladin";
             int statBase = (int)(Math.random()*15)+1;
             health = statBase+100;
-            stamina = statBase+2;
-            atk = statBase+1;
+            stamina = statBase+3;
+            atk = statBase+3;
             move = "Stab";
             ultimate = "Holy Smite";
         }
@@ -107,11 +107,11 @@ public class DungeonConquestSim {
                 rollDice();
                 if (dice ==6)
                 {
-                    dmg = dice*atk/2+2;
+                    dmg = dice*atk/2+5;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+3;
+                    dmg = atk+7;
                 }
                 else{
                     dmg = 7;
@@ -127,7 +127,7 @@ public class DungeonConquestSim {
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+2;
+                    dmg = atk+5;
                 }
                 else{
                     dmg = 5;
@@ -139,11 +139,11 @@ public class DungeonConquestSim {
                 rollDice();
                 if (dice ==6)
                 {
-                    dmg = atk+2;
+                    dmg = atk+10;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+1;
+                    dmg = atk+6;
                 }
                 else{
                     dmg = 6;
@@ -152,13 +152,13 @@ public class DungeonConquestSim {
         }
         else if(moveNum == 2 && stamina>=10)
         {
+            int dice = rollDice();
             if(ultimate.equals("Cocytus"))
             {
                 stamina-=10;
-                rollDice();
                 if (dice ==6)
                 {
-                    dmg = dice*atk+20;
+                    dmg = dice*atk+30;
                 }
                 else if(dice >=3)
                 {
@@ -171,26 +171,9 @@ public class DungeonConquestSim {
             else if(ultimate.equals("Strong Cleave")  )
             {
                 stamina-=10;
-                rollDice();
                 if (dice ==6)
                 {
-                    dmg = dice+atk+atk+10;
-                }
-                else if(dice >=3)
-                {
-                    dmg = atk+15;
-                }
-                else{
-                    dmg = 10;
-                }
-            }
-            else
-            {
-                stamina-=10;
-                rollDice();
-                if (dice ==6)
-                {
-                    dmg = dice*atk+10;
+                    dmg = dice+atk*3+20;
                 }
                 else if(dice >=3)
                 {
@@ -198,6 +181,21 @@ public class DungeonConquestSim {
                 }
                 else{
                     dmg = 20;
+                }
+            }
+            else
+            {
+                stamina-=10;
+                if (dice ==6)
+                {
+                    dmg = dice*atk+15;
+                }
+                else if(dice >=3)
+                {
+                    dmg = atk+20;
+                }
+                else{
+                    dmg = 22;
                 }
             }
         }
@@ -338,7 +336,7 @@ public class DungeonConquestSim {
     {
         if (enemy.equals("The Ancient One"))
         {
-            ehp = 300;
+            ehp = 400;
             eatk = 20;
 
         }
@@ -361,9 +359,11 @@ public class DungeonConquestSim {
         }
     }
 
-    /** Describes the
+    /** Describes the enemy by formatting string into sentences so that the player
+     * gets a better understanding of their opponent's background.
      *
-     * @return
+     * @return returns the formatted strings based on the value assigned to private
+     * variable enemy.
      */
 
     public String describeEnemy()
@@ -387,17 +387,27 @@ public class DungeonConquestSim {
         return words;
     }
 
+    /** Change the ehp variable based on the damage parameter.
+     *
+     * @param dmg used to subtract from the set ehp variable.
+     */
     public void changeEHP (int dmg)
     {
         ehp-=dmg;
     }
 
+    /** This method is similar to the useMove method. It determines the damage dealt to the player
+     * by testing for the string value of the variable enemy and calculate for the return value of dmg.
+     *
+     * @return returns an integer representing the amount of damage dealt to the player by the enemy.
+     */
     public int enemyMove()
     {
         int dmg=0;
         if (enemy.equals("The Ancient One"))
         {
             dmg = eatk+ (int)(Math.random()*10)+5;
+            ehp+=7;
             int diceNum = (int)(Math.random()*1000);
             if (diceNum == 10)
             {
@@ -419,6 +429,11 @@ public class DungeonConquestSim {
         return dmg;
     }
 
+    /** The method that tests whether the game is finished or not based on the player
+     * hp, enemy ehp and whether count is equal to 3 or not.
+     *
+     * @return returns a boolean value representing whether the game ended or not
+     */
     public boolean finale()
     {
         if (count==3 & ehp == 0 || health <= 0)
@@ -428,6 +443,14 @@ public class DungeonConquestSim {
         return false;
     }
 
+    /** The method that returns a finishing message after the conditions for ending the game is met
+     * This is calculated through the health and count variables.
+     *
+     * @param count the count parameter represents the rounds that the player has played the game,
+     *              each count representing one enemy spawned since the game started.
+     *
+     * @return returns a formatted string as a sentence to print.
+     */
     public String endMessage(int count)
     {
         if (health <= 0 && count<3)
@@ -436,7 +459,7 @@ public class DungeonConquestSim {
         }
         else if (health <=0 && count==3)
         {
-            return blackBG + red + "The combination of maximum output blue and p*** yellow! LIME GREEN!" + reset +"\nYou died whilst fighting The Ancient One";
+            return blackBG + red + "The combination of maximum output blueberry blue and banana yellow! LIME GREEN!" + reset +"\nYou died whilst fighting The Ancient One";
         }
         else{
             String words = "";
@@ -447,11 +470,20 @@ public class DungeonConquestSim {
         }
     }
 
+    /** A method that returns the stamina of the player.
+     *
+     * @return returns the value from the private variable stamina.
+     */
     public int returnStamina()
     {
         return stamina;
     }
 
+    /** The method that determines whether the player has defeated the enemy or not. This is calculated
+     * based on ehp.
+     *
+     * @return returns a boolean value representing the status of the fight. True if won, false if otherwise.
+     */
     public boolean victory()
     {
         if (ehp <= 0)
@@ -461,6 +493,10 @@ public class DungeonConquestSim {
         return false;
     }
 
+    /** The method that allows for the program to pause to allow for more readability.
+     *
+     * @param ms represents the amount of time in milliseconds that the program should stop.
+     */
     public void wait(int ms)
     {
         try {
@@ -470,7 +506,16 @@ public class DungeonConquestSim {
         }
     }
 
-    public String moveMessage(int moveNum,int dmg,int stamina)
+    /** Formats strings into sentences that can be printed based on the player's decision out of
+     * move 1, 2, 3, and 4.
+     *
+     * @param moveNum represents the move that the player decided to do during their turn.
+     * @param dmg = the damage that the player done in that move against the enemy.
+     * @param stamina = the stamina of the player currently possesses.
+     * @return returns the formatted string as a sentence that be printed based on calculations based on prior
+     * variables.
+     */
+    public String moveMessage(int moveNum,int dmg,int stamina, int hp)
     {
         String phrase ="";
         if (moveNum == 1)
@@ -498,8 +543,9 @@ public class DungeonConquestSim {
         {
             if(stamina>=2)
             {
+                int healed = health - hp;
                 phrase = green + "Oh Hero are you scared?" + red + "STOP HEALING AND GET KILLING!" + reset;
-                phrase += "\nYou healed hp!";
+                phrase += "\nYou healed " + healed + " hp!";
             }
             else{
                 phrase = green + "foolish hero you can't use a skill you don't have the stamina for." + reset;
@@ -511,7 +557,16 @@ public class DungeonConquestSim {
         return phrase;
     }
 
-    public String moveMessageBoss(int moveNum, int dmg, int stamina)
+    /** The method used to return a formatted string based on the player's move during their round
+     * exclusively during the final boss fight.
+     *
+     * @param moveNum represents the move that the player decided to take during their round.
+     * @param dmg = the amount of damage the player did during their round.
+     * @param stamina = the amount of stamina that the player currently have.
+     * @param hp = the amount of health the player currently possesses.
+     * @return returns a formatted string that can be printed depending on the variable values in the parameter.
+     */
+    public String moveMessageBoss(int moveNum, int dmg, int stamina, int hp)
     {
         String phrase ="";
         if (moveNum == 1)
@@ -539,8 +594,9 @@ public class DungeonConquestSim {
         {
             if(stamina>=2)
             {
+                int healed = health - hp;
                 phrase = blackBG + red + "Go ahead and delay the inevitable" + reset;
-                phrase += "\nYou healed hp!";
+                phrase += "\nYou healed " + healed +" hp!";
             }
             else{
                 phrase = blackBG + red + "Do you want to lose?." + reset;

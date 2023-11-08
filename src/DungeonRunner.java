@@ -7,7 +7,7 @@ public class DungeonRunner {
         final String green = "\u001B[32m";
         final String reset = "\u001B[0m";
         final String blackBG= "\u001B[40m";
-
+        //create new scanner object
         Scanner s = new Scanner(System.in);
 
         //Introduction to the game
@@ -29,10 +29,12 @@ public class DungeonRunner {
         newGame.wait(2000);
         System.out.println(blue + "Move: " + newGame.describeMove(1) +reset);
         System.out.println(blue + "Ultimate: " + newGame.describeMove(2) + reset);
+        //start of the game
         int count=0;
         int hp = newGame.returnHP();
         while (!newGame.finale() && hp>0 && count<2)
         {
+            //spawns enemy
             count++;
             System.out.println("\nAn enemy appears before you...");
             newGame.wait(2000);
@@ -46,6 +48,7 @@ public class DungeonRunner {
             boolean victory = newGame.victory();
             while (!victory && hp>0)
             {
+                //player actions
                 int stamina = newGame.returnStamina();
                 int ehp = newGame.returnEHP();
                 System.out.println(green + "Player Health: " + hp + reset);
@@ -60,6 +63,7 @@ public class DungeonRunner {
                 newGame.wait(1000);
                 newGame.changeStamina();
                 victory = newGame.victory();
+                //enemy move
                 if(!victory)
                 {
                     int enemyDMG = newGame.enemyMove();
@@ -67,6 +71,7 @@ public class DungeonRunner {
                 }
                 hp = newGame.returnHP();
             }
+            //add hp after each round of enemy if player still alive
             if (hp>0)
             {
                 newGame.resetHP();
@@ -74,8 +79,10 @@ public class DungeonRunner {
 
         }
         hp = newGame.returnHP();
+        //if the while loop is finished and hp is greater than 0 then boss fight starts
         if (hp>0)
         {
+            //boss speech
             count++;
             String enemy = newGame.generateEnemies();
             newGame.wait(1000);
@@ -88,6 +95,7 @@ public class DungeonRunner {
             System.out.println(blackBG + red + "It is I! DIO! No wait I meant IT IS I! The Ancient One!" + reset);
             while(!newGame.finale() && !newGame.victory() && hp>=0)
             {
+                //player move
                 newGame.wait(1500);
                 int stamina = newGame.returnStamina();
                 int ehp = newGame.returnEHP();
@@ -102,9 +110,11 @@ public class DungeonRunner {
                 newGame.wait(1000);
                 System.out.println(newGame.moveMessageBoss(moveNum,dmg,stamina,hp));
                 newGame.changeStamina();
+                //boss move
                 if(!newGame.victory())
                 {
                     int enemyDMG = newGame.enemyMove();
+                    // changes print statement depending on the hp and enemyDMG
                     if(enemyDMG>hp)
                     {
                         System.out.println("\n" + blackBG + red + "Unlimited technique, Lime Green" +reset);
@@ -116,6 +126,7 @@ public class DungeonRunner {
                 }
             }
         }
+        //the end and prints a message depending on how the player ended the game.
         String message = newGame.endMessage(count);
         System.out.println("\n"+message);
 

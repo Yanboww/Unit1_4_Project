@@ -420,7 +420,7 @@ public class DungeonConquestSim {
         }
         else if (enemy.equals("Cute Slime that you must murder(you have no choice)"))
         {
-            dmg = 0;
+            return dmg;
         }
         else if(enemy.equals("Very Extremely Scary Clown")){
             dmg = eatk;

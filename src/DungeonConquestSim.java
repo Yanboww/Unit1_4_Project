@@ -1,6 +1,6 @@
 /**
-*This class represents a simulator
-* It is computations for the program
+ *This class represents a simulator
+ * It is computations for the program
  */
 public class DungeonConquestSim {
     private int health;
@@ -9,16 +9,15 @@ public class DungeonConquestSim {
     private String classChar;
     private String move;
     private String ultimate;
-    private int ehp;
-    private int eatk;
-    private int count;
-    private String enemy;
     private int dice;
+    private int count;
+    final private Enemy enemy;
     final String red ="\u001B[31m";
     final String green = "\u001B[32m";
     final String reset = "\u001B[0m";
     final String blackBG= "\u001B[40m";
     final String magenta = "\u001B[35m";
+    final private String blue = "\u001B[34m";
     /**
      * Constructor for the DungeonConquestSim class. This creates a new instance of a game with
      * the below parameter
@@ -26,10 +25,11 @@ public class DungeonConquestSim {
      * @param classChar represents the class the player chosen out of warrior, mage and paladin
      */
 
-    public DungeonConquestSim(String classChar)
+    public DungeonConquestSim(String classChar, Enemy enemy)
     {
         classChar = classChar.toLowerCase();
         decideConstruct(classChar);
+        this.enemy = enemy;
 
     }
 
@@ -46,7 +46,7 @@ public class DungeonConquestSim {
             int statBase = (int)(Math.random()*10)+1;
             health = statBase+100;
             stamina = statBase+2;
-            atk = statBase+6;
+            atk = statBase+60000;
             move = "Icicle Lance";
             ultimate = "Cocytus";
         }
@@ -103,7 +103,6 @@ public class DungeonConquestSim {
         {
             if(move.equals("Icicle Lance"))
             {
-                stamina-=2;
                 rollDice();
                 if (dice ==6)
                 {
@@ -119,7 +118,6 @@ public class DungeonConquestSim {
             }
             else if(move.equals("Cleave"))
             {
-                stamina-=2;
                 rollDice();
                 if (dice ==6)
                 {
@@ -135,7 +133,6 @@ public class DungeonConquestSim {
             }
             else
             {
-                stamina-=2;
                 rollDice();
                 if (dice ==6)
                 {
@@ -155,7 +152,6 @@ public class DungeonConquestSim {
             int dice = rollDice();
             if(ultimate.equals("Cocytus"))
             {
-                stamina-=10;
                 if (dice ==6)
                 {
                     dmg = dice*atk+30;
@@ -170,7 +166,6 @@ public class DungeonConquestSim {
             }
             else if(ultimate.equals("Strong Cleave")  )
             {
-                stamina-=10;
                 if (dice ==6)
                 {
                     dmg = dice+atk*3+20;
@@ -185,7 +180,6 @@ public class DungeonConquestSim {
             }
             else
             {
-                stamina-=10;
                 if (dice ==6)
                 {
                     dmg = dice*atk+15;
@@ -201,9 +195,9 @@ public class DungeonConquestSim {
         }
         else if (stamina>=2 && moveNum ==3)
         {
-           changeHealth();
+            changeHealth();
         }
-        changeEHP(dmg);
+        enemy.changeEHP(dmg);
         return dmg;
     }
 
@@ -223,10 +217,11 @@ public class DungeonConquestSim {
      *
      */
 
-    public void changeStamina()
+    public int changeStamina()
     {
-        int diceNum =rollDice();
-        stamina+=diceNum+1;
+        int diceNum =rollDice()+1;
+        stamina+=diceNum;
+        return diceNum;
     }
 
     /** Describes the move of the player by testing the string value in the move or ultimate
@@ -274,50 +269,6 @@ public class DungeonConquestSim {
 
     }
 
-    /** A method that randomly rolls a die to determine between 3 enemy characters and adds 1
-     * to the variable count. When count is 3 or more, it guarantees the boss to be generated
-     *
-     * @return returns the enemy name based on the dice roll and calculations
-     */
-    public String generateEnemies()
-    {
-        count++;
-        String name ="";
-        int diceNum = rollDice();
-        if (diceNum<4)
-        {
-            enemy = "Very Extremely Scary Clown";
-            name = "Very Extremely Scary Clown";
-        }
-        else if (diceNum == 4)
-        {
-            enemy = "??????";
-            name = "??????";
-        }
-        else if(diceNum == 5 || diceNum ==6)
-        {
-            enemy = "Cute Slime that you must murder(you have no choice)";
-            name = "Cute Slime that you must murder(you have no choice)";
-        }
-        if (count>=3)
-        {
-            enemy = "The Ancient One";
-            name = "The Ancient One";
-        }
-        setEnemy();
-        return name;
-    }
-
-    /** A method that returns the private variable ehp.
-     *
-     * @return returns the private variable ehp
-     */
-
-    public int returnEHP()
-    {
-        return ehp;
-    }
-
     /** A method that returns the private variable health
      *
      * @return returns the private variable health
@@ -327,120 +278,21 @@ public class DungeonConquestSim {
         return health;
     }
 
-    /** Set the enemy stats such as ehp and eatk based on the name assigned to the variable
-     * enemy. This process is after the generateEnemies() method which assigned the enemy variable
-     * values.
-     *
-     */
-    public void setEnemy()
-    {
-        if (enemy.equals("The Ancient One"))
-        {
-            ehp = 400;
-            eatk = 20;
-
-        }
-        else if (enemy.equals("??????"))
-        {
-            ehp = 120;
-            eatk = 7;
-
-        }
-        else if (enemy.equals("Cute Slime that you must murder(you have no choice)"))
-        {
-            ehp = 400;
-            eatk = 0;
-
-        }
-        else {
-            ehp = 100;
-            eatk = 5;
-
-        }
-    }
-
-    /** Describes the enemy by formatting string into sentences so that the player
-     * gets a better understanding of their opponent's background.
-     *
-     * @return returns the formatted strings based on the value assigned to private
-     * variable enemy.
-     */
-
-    public String describeEnemy()
-    {
-        String words;
-        if (enemy.equals("The Ancient One"))
-        {
-            words = "A being of the past, forgotten through time, a nameless god";
-        }
-        else if (enemy.equals("??????"))
-        {
-            words = "... I don't quite know what it is perhaps its identity will be revealed later";
-        }
-        else if (enemy.equals("Cute Slime that you must murder(you have no choice)"))
-        {
-            words = "The cutest thing you have and will ever see";
-        }
-        else {
-            words = "Just a regular old clown";
-        }
-        return words;
-    }
-
-    /** Change the ehp variable based on the damage parameter.
-     *
-     * @param dmg used to subtract from the set ehp variable.
-     */
-    public void changeEHP (int dmg)
-    {
-        ehp-=dmg;
-    }
-
-    /** This method is similar to the useMove method. It determines the damage dealt to the player
-     * by testing for the string value of the variable enemy and calculate for the return value of dmg.
-     *
-     * @return returns an integer representing the amount of damage dealt to the player by the enemy.
-     */
-    public int enemyMove()
-    {
-        int dmg=0;
-        if (enemy.equals("The Ancient One"))
-        {
-            dmg = eatk+ (int)(Math.random()*10)+5;
-            ehp+=7;
-            int diceNum = (int)(Math.random()*1000);
-            if (diceNum == 10)
-            {
-                dmg+=health;
-            }
-        }
-        else if (enemy.equals("??????"))
-        {
-            dmg = eatk+ (int)(Math.random()*6);
-        }
-        else if (enemy.equals("Cute Slime that you must murder(you have no choice)"))
-        {
-            return dmg;
-        }
-        else if(enemy.equals("Very Extremely Scary Clown")){
-            dmg = eatk;
-        }
-        health-=dmg;
-        return dmg;
-    }
 
     /** The method that tests whether the game is finished or not based on the player
-     * hp, enemy ehp and whether count is equal to 3 or not.
+     * hp, enemy ehp and the count.
      *
      * @return returns a boolean value representing whether the game ended or not
      */
     public boolean finale()
     {
-        if (count==3 & ehp == 0 || health <= 0)
+        int ehp = enemy.returnEHP();
+        if (!(count==3 && ehp <= 0 || health <= 0) && count<2)
         {
             return true;
         }
         return false;
+
     }
 
     /** The method that returns a finishing message after the conditions for ending the game is met
@@ -480,13 +332,14 @@ public class DungeonConquestSim {
     }
 
     /** The method that determines whether the player has defeated the enemy or not. This is calculated
-     * based on ehp.
+     * based on ehp and health.
      *
-     * @return returns a boolean value representing the status of the fight. True if won, false if otherwise.
+     * @return returns a boolean value representing the status of the fight. True if battling, false if otherwise.
      */
-    public boolean victory()
+    public boolean battling()
     {
-        if (ehp <= 0)
+        int ehp = enemy.returnEHP();
+        if (ehp > 0 && health> 0)
         {
             return true;
         }
@@ -517,12 +370,14 @@ public class DungeonConquestSim {
      */
     public String moveMessage(int moveNum,int dmg,int stamina, int hp)
     {
+        String enemyName = enemy.returnName();
         String phrase ="";
         if (moveNum == 1)
         {
             if(stamina>=2)
             {
-                phrase = "You do " +red+ dmg + reset + " damage against " + enemy +"!";
+                phrase = "You do " +red+ dmg + reset + " damage against " + enemyName +"!";
+                this.stamina-=2;
             }
             else{
                 phrase = green + "foolish hero you can't use a skill you don't have the stamina for." + reset;
@@ -532,7 +387,8 @@ public class DungeonConquestSim {
         {
             if(stamina>=10)
             {
-                phrase = "You use your ultimate! You did a massive " + red + dmg + reset +" damage against " + enemy + "!";
+                phrase = "You use your ultimate! You did a massive " + red + dmg + reset +" damage against " + enemyName + "!";
+                this.stamina-=10;
             }
             else{
                 phrase = green + "foolish hero you can't use a skill you don't have the stamina for." + reset;
@@ -546,6 +402,7 @@ public class DungeonConquestSim {
                 int healed = health - hp;
                 phrase = green + "Oh Hero are you scared?" + red + "STOP HEALING AND GET KILLING!" + reset;
                 phrase += "\nYou healed " + healed + " hp!";
+                this.stamina-=2;
             }
             else{
                 phrase = green + "foolish hero you can't use a skill you don't have the stamina for." + reset;
@@ -554,6 +411,8 @@ public class DungeonConquestSim {
         else {
             phrase = "You did nothing... it was not very effective!";
         }
+        int staminaChange = changeStamina();
+        phrase+="\nYou regained " + blue + staminaChange + reset + " stamina!";
         return phrase;
     }
 
@@ -566,14 +425,15 @@ public class DungeonConquestSim {
      * @param hp = the amount of health the player currently possesses.
      * @return returns a formatted string that can be printed depending on the variable values in the parameter.
      */
-    public String moveMessageBoss(int moveNum, int dmg, int stamina, int hp)
+    public String moveMessageBoss(int moveNum, int dmg,int stamina, int hp)
     {
+        String enemyName = enemy.returnName();
         String phrase ="";
         if (moveNum == 1)
         {
             if(stamina>=2)
             {
-                phrase = "You do " + red + dmg + reset + " damage against " + enemy +"!";
+                phrase = "You do " + red + dmg + reset + " damage against " + enemyName +"!";
             }
             else{
                 phrase = blackBG + red + "..." + reset;
@@ -583,7 +443,7 @@ public class DungeonConquestSim {
         {
             if(stamina>=10)
             {
-                phrase = "You use your ultimate! You did a massive " + red +  dmg + reset +" damage against " + enemy + "!";
+                phrase = "You use your ultimate! You did a massive " + red +  dmg + reset +" damage against " + enemyName + "!";
             }
             else{
                 phrase = blackBG+red + "Stupid hero" + reset;
@@ -605,7 +465,147 @@ public class DungeonConquestSim {
         else {
             phrase = "You did nothing... it was not very effective!";
         }
+        int staminaChange = changeStamina();
+        phrase+="\nYou regained " + blue + staminaChange + reset + " stamina!";
         return phrase;
+    }
+
+    /** The method that allows the enemies to do damage to the players.
+     *
+     * @param dmg the damage that the enemies do to the players.
+     */
+    public void takeDamage(int dmg)
+    {
+        health-=dmg;
+    }
+
+    /** The method that spawns the enemies from the enemy class and returns a formatted string
+     * to display and or notify the user
+     *
+     * @return the formatted string that the method returns to display to the user.
+     */
+    public String enemySpawn()
+    {
+        String enemyName = enemy.generateEnemies();
+        String describeEnemy = enemy.describeEnemy();
+        String enemyPrompt = "\nAn enemy appears before you...";
+        enemyPrompt += "\nA wild " + enemyName + " appeared!";
+        enemyPrompt +="\n" + blue + describeEnemy + reset;
+        enemyPrompt += "\n" +  green + "Now go kill it!" + reset +" says a distant voice\n";
+        wait(1000);
+        return enemyPrompt;
+    }
+
+    /** the method that returns player health, stamina and enemy health. This allows the player
+     * to understand the situation and make decisions in their fight.
+     *
+     * @return returns a formatted string with color with information about the battle.
+     */
+    public String battleInformation()
+    {
+        int ehp = enemy.returnEHP();
+        String gameStats = green + "Player Health: " + health + reset;
+        gameStats += "\n" + blue + "Stamina: " + stamina + reset;
+        gameStats += "\n" + red + "Enemy Health: " + ehp + reset;
+        return gameStats;
+    }
+
+    /** The variable that allows the player to retrieve the private count variable.
+     *
+     * @return the value of the private variable count.
+     */
+    public int returnCount()
+    {
+        return count;
+    }
+
+    /** The method that returns a formatted string about the boss dialogue.
+     *
+     * @return the formatted string with color of the boss speaking.
+     */
+    public String bossMessage()
+    {
+        String boss = enemy.generateEnemies();
+        String bossPrompt = green + "Good job hero, you have made it far. Far exceeding my expectations" + reset;
+        bossPrompt += "\n" + green+"You have performed well so far but you have yet to face your greatest challenge...";
+        bossPrompt += "\n" + blackBG + red + "Throughout heaven and earth, I alone am the honored one." + reset;
+        bossPrompt += "\n" + blackBG + red + "It is I! DIO! No wait I meant IT IS I! The Ancient One!" + reset;
+        return bossPrompt;
+    }
+
+    /** Allows the enemies to do something in the game such as doing damage by calling
+     * the enemyMove() method from the enemy class.
+     *
+     * @return returns a formatted string that informs the user how much damage they had
+     * taken.
+     */
+    public String enemyMove()
+    {
+        String enemyName = enemy.returnName();
+        int enemyDmg = enemy.enemyMove();
+        takeDamage(enemyDmg);
+        return "\n"+ enemyName + " does " + red + enemyDmg +" damage!\n" + reset;
+
+    }
+
+    /** The method that displays the 4 choices a player can make. This is in the form of
+     * a string.
+     *
+     * @return returns the formatted string for the user to decide their next move.
+     */
+    public String playerChoice()
+    {
+        String choice = "What is your move?\n1) use skill(2 stamina)";
+        choice += "\n2) use ultimate(10 stamina)";
+        choice+="\n3) heal(2 stamina)";
+        choice+="\n4) do nothing\n:";
+        return choice;
+    }
+
+    /** The method that tests whether the player is dead or not.
+     *
+     * @return returns a boolean variable depending on the player is alive or not.
+     */
+    public boolean checkHP()
+    {
+        int hp = returnHP();
+        if (hp>0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /** The method that allows the boss to do damage to the player in the game through
+     * the enemyMove() method of the enemy class.
+     *
+     * @return returns a formatted string depending on the boss damage.
+     */
+    public String bossMove()
+    {
+        String bossName = enemy.returnName();
+        String gameReply ="";
+        int enemyDMG = enemy.enemyMove();
+        takeDamage(enemyDMG);
+        if(enemyDMG>health)
+        {
+            gameReply+="\n" + blackBG + red + "Unlimited technique, Lime Green" +reset;
+            gameReply +="\nYou just got off screened!\n";
+        }
+        else {
+            gameReply += "\n"+bossName + " does " + red + enemyDMG +" damage!\n" + reset;
+        }
+        return gameReply;
+    }
+
+    /** The method that allows the user to interact with the private variable count. It can only
+     * increment by 1.
+     *
+     */
+
+    public void changeCount()
+    {
+        count++;
     }
 
     /**

@@ -3,10 +3,8 @@ public class DungeonRunner {
     public static void main(String[] args) {
         //color ASNI codes for changing string color
         final String blue = "\u001B[34m";
-        final String red ="\u001B[31m";
         final String green = "\u001B[32m";
         final String reset = "\u001B[0m";
-        final String blackBG= "\u001B[40m";
         //create new scanner object
         Scanner s = new Scanner(System.in);
 

@@ -586,15 +586,14 @@ public class DungeonConquestSim {
         String bossName = enemy.returnName();
         String gameReply ="";
         int enemyDMG = enemy.enemyMove();
-        takeDamage(enemyDMG);
-        if(enemyDMG>health)
+        if(enemyDMG>=health)
         {
-            gameReply+="\n" + blackBG + red + "Unlimited technique, Lime Green" +reset;
             gameReply +="\nYou just got off screened!\n";
         }
         else {
             gameReply += "\n"+bossName + " does " + red + enemyDMG +" damage!\n" + reset;
         }
+        takeDamage(enemyDMG);
         return gameReply;
     }
 

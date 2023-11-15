@@ -31,7 +31,6 @@ public class DungeonRunner {
         System.out.println(blue + "Move: " + newGame.describeMove(1) +reset);
         System.out.println(blue + "Ultimate: " + newGame.describeMove(2) + reset);
         //start of the game
-        int count= newGame.returnCount();
         while (newGame.finale())
         {
             //spawns enemy
@@ -69,8 +68,8 @@ public class DungeonRunner {
         //if the while loop is finished and hp is greater than 0 then boss fight starts
         if (newGame.checkHP())
         {
+            newGame.changeCount();
             //boss speech
-            count++;
             String bossSpeech = newGame.bossMessage();
             System.out.println(bossSpeech);
             while(newGame.battling())
@@ -95,7 +94,7 @@ public class DungeonRunner {
             }
         }
         //the end and prints a message depending on how the player ended the game.
-        String message = newGame.endMessage(count);
+        String message = newGame.endMessage(newGame.returnCount());
         System.out.println("\n"+message);
 
     }

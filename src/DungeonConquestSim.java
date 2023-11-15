@@ -525,7 +525,7 @@ public class DungeonConquestSim {
      */
     public String bossMessage()
     {
-        String boss = enemy.generateEnemies();
+        enemy.generateEnemies();
         String bossPrompt = green + "Good job hero, you have made it far. Far exceeding my expectations" + reset;
         bossPrompt += "\n" + green+"You have performed well so far but you have yet to face your greatest challenge...";
         bossPrompt += "\n" + blackBG + red + "Throughout heaven and earth, I alone am the honored one." + reset;

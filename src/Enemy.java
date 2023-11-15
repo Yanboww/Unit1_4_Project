@@ -54,7 +54,7 @@ public class Enemy {
     {
         if (enemy.equals("The Ancient One"))
         {
-            ehp = 300;
+            ehp = 250;
             eatk = 20;
 
         }
@@ -72,7 +72,7 @@ public class Enemy {
         }
         else {
             ehp = 100;
-            eatk = 50000000;
+            eatk = 5;
 
         }
     }

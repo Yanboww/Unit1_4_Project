@@ -106,14 +106,14 @@ public class DungeonConquestSim {
                 rollDice();
                 if (dice ==6)
                 {
-                    dmg = dice*atk/2+5;
+                    dmg = dice*atk/2+17;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+7;
+                    dmg = atk+20;
                 }
                 else{
-                    dmg = 7;
+                    dmg = 20;
                 }
             }
             else if(move.equals("Cleave"))
@@ -125,10 +125,10 @@ public class DungeonConquestSim {
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+5;
+                    dmg = atk+15;
                 }
                 else{
-                    dmg = 5;
+                    dmg = 15;
                 }
             }
             else
@@ -136,60 +136,60 @@ public class DungeonConquestSim {
                 rollDice();
                 if (dice ==6)
                 {
-                    dmg = atk+10;
+                    dmg = atk+17;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+6;
+                    dmg = atk+17;
                 }
                 else{
-                    dmg = 6;
+                    dmg = 17;
                 }
             }
         }
-        else if(moveNum == 2 && stamina>=10)
+        else if(moveNum == 2 && stamina>=30)
         {
             int dice = rollDice();
             if(ultimate.equals("Cocytus"))
             {
                 if (dice ==6)
                 {
-                    dmg = dice*atk+30;
+                    dmg = dice*atk+55;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+dice+25;
+                    dmg = atk+dice+55;
                 }
                 else{
-                    dmg = 25;
+                    dmg = 55;
                 }
             }
             else if(ultimate.equals("Strong Cleave")  )
             {
                 if (dice ==6)
                 {
-                    dmg = dice+atk*3+20;
+                    dmg = dice+atk*3+40;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+20;
+                    dmg = atk+40;
                 }
                 else{
-                    dmg = 20;
+                    dmg = 40;
                 }
             }
             else
             {
                 if (dice ==6)
                 {
-                    dmg = dice*atk+15;
+                    dmg = dice*atk+45;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+20;
+                    dmg = atk+50;
                 }
                 else{
-                    dmg = 22;
+                    dmg = 50;
                 }
             }
         }
@@ -385,10 +385,10 @@ public class DungeonConquestSim {
         }
         else if(moveNum == 2)
         {
-            if(stamina>=10)
+            if(stamina>=30)
             {
                 phrase = "You use your ultimate! You did a massive " + red + dmg + reset +" damage against " + enemyName + "!";
-                this.stamina-=10;
+                this.stamina-=30;
             }
             else{
                 phrase = green + "foolish hero you can't use a skill you don't have the stamina for." + reset;
@@ -401,7 +401,7 @@ public class DungeonConquestSim {
             {
                 int healed = health - hp;
                 phrase = green + "Oh Hero are you scared?" + red + "STOP HEALING AND GET KILLING!" + reset;
-                phrase += "\nYou healed " + healed + " hp!";
+                phrase += "\nYou healed " + green + healed + reset + " hp!";
                 this.stamina-=2;
             }
             else{
@@ -434,6 +434,7 @@ public class DungeonConquestSim {
             if(stamina>=2)
             {
                 phrase = "You do " + red + dmg + reset + " damage against " + enemyName +"!";
+                this.stamina-=2;
             }
             else{
                 phrase = blackBG + red + "..." + reset;
@@ -441,9 +442,10 @@ public class DungeonConquestSim {
         }
         else if(moveNum == 2)
         {
-            if(stamina>=10)
+            if(stamina>=30)
             {
                 phrase = "You use your ultimate! You did a massive " + red +  dmg + reset +" damage against " + enemyName + "!";
+                this.stamina -=30;
             }
             else{
                 phrase = blackBG+red + "Stupid hero" + reset;
@@ -456,7 +458,8 @@ public class DungeonConquestSim {
             {
                 int healed = health - hp;
                 phrase = blackBG + red + "Go ahead and delay the inevitable" + reset;
-                phrase += "\nYou healed " + healed +" hp!";
+                phrase += "\nYou healed " + green +  healed + reset +" hp!";
+                this.stamina -=2;
             }
             else{
                 phrase = blackBG + red + "Do you want to lose?." + reset;
@@ -556,7 +559,7 @@ public class DungeonConquestSim {
     public String playerChoice()
     {
         String choice = "What is your move?\n1) use skill(2 stamina)";
-        choice += "\n2) use ultimate(10 stamina)";
+        choice += "\n2) use ultimate(30 stamina)";
         choice+="\n3) heal(2 stamina)";
         choice+="\n4) do nothing\n:";
         return choice;

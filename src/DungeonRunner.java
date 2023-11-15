@@ -52,6 +52,7 @@ public class DungeonRunner {
                 {
                     String enemyMove = newGame.enemyMove();
                     System.out.println(enemyMove);
+                    newGame.wait(1000);
                 }
             }
             newGame.changeCount();

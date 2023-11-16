@@ -1,3 +1,7 @@
+/** This is the enemy class. It represents an enemy with a name,
+ * health and attack
+ *
+ */
 public class Enemy {
     private int ehp;
     private int eatk;

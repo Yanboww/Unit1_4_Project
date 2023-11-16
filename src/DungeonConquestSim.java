@@ -46,7 +46,7 @@ public class DungeonConquestSim {
             int statBase = (int)(Math.random()*10)+1;
             health = statBase+100;
             stamina = statBase+2;
-            atk = statBase+60000;
+            atk = statBase+6;
             move = "Icicle Lance";
             ultimate = "Cocytus";
         }

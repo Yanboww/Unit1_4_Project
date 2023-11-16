@@ -25,11 +25,11 @@ public class DungeonConquestSim {
      * @param classChar represents the class the player chosen out of warrior, mage and paladin
      */
 
-    public DungeonConquestSim(String classChar, Enemy enemy)
+    public DungeonConquestSim(String classChar)
     {
         classChar = classChar.toLowerCase();
         decideConstruct(classChar);
-        this.enemy = enemy;
+        this.enemy = new Enemy();
 
     }
 
@@ -154,42 +154,42 @@ public class DungeonConquestSim {
             {
                 if (dice ==6)
                 {
-                    dmg = dice*atk+55;
+                    dmg = dice*atk+75;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+dice+55;
+                    dmg = atk+dice+75;
                 }
                 else{
-                    dmg = 55;
+                    dmg = 80;
                 }
             }
             else if(ultimate.equals("Strong Cleave")  )
             {
                 if (dice ==6)
                 {
-                    dmg = dice+atk*3+40;
+                    dmg = dice+atk*3+65;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+40;
+                    dmg = atk+65;
                 }
                 else{
-                    dmg = 40;
+                    dmg = 69;
                 }
             }
             else
             {
                 if (dice ==6)
                 {
-                    dmg = dice*atk+45;
+                    dmg = dice*atk+70;
                 }
                 else if(dice >=3)
                 {
-                    dmg = atk+50;
+                    dmg = atk+70;
                 }
                 else{
-                    dmg = 50;
+                    dmg = 70;
                 }
             }
         }

@@ -12,8 +12,7 @@ public class DungeonRunner {
         System.out.println(green + "Welcome nameless hero, will it be you who clear this dungeon?" + reset);
         System.out.print("Choose your class(type mage, warrior ,or paladin): ");
         String classChar = s.nextLine();
-        Enemy enemyClass = new Enemy();
-        DungeonConquestSim newGame = new DungeonConquestSim(classChar, enemyClass);
+        DungeonConquestSim newGame = new DungeonConquestSim(classChar);
         System.out.println(green + "Welcome, oh great " + classChar + "\nOh? You have amnesia? tsk..." + reset);
         newGame.wait(1500);
         System.out.println(green +"Oh apologies what I meant is but of course! I shall present you your skills" + reset);
@@ -34,6 +33,7 @@ public class DungeonRunner {
         {
             //spawns enemy
             String enemyPrompt = newGame.enemySpawn();
+            newGame.wait(1000);
             System.out.println(enemyPrompt);
             while (newGame.battling())
             {

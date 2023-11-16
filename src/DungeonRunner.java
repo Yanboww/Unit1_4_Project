@@ -28,6 +28,7 @@ public class DungeonRunner {
         newGame.wait(2000);
         System.out.println(blue + "Move: " + newGame.describeMove(1) +reset);
         System.out.println(blue + "Ultimate: " + newGame.describeMove(2) + reset);
+        newGame.wait(1500);
         //start of the game
         while (newGame.finale())
         {
